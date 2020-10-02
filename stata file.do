@@ -1,20 +1,20 @@
 ******************
 * Nikhil Kumar
-* EC 522
-* Problem Set 3
-* Question 2
 ******************
 
 clear all
 
+* change directory here
 cd "C:\Users\nikhi\Desktop\BU_Sem_2\EC 522\Problem Sets\PS3"
 use "PS3_DID.dta"
 
 * a
+* recode the variable for sanitation as required
 recode v116 (23 30 31 42 43 96 = 1 "No Toilet")(10 11 12 13 14 15 20 21 22 41 = 0 "Has Toilet"), gen(no_toilet)
 
 tab no_toilet
 
+* recode the variable for water resource quality as required
 recode v113 (10 11 12 13 14 20 21 30 31 33 41 61 62 71= 0 "Good Water Resource")(22 23 24 32 40 42 43 51 96= 1 "Poor Water Resource"), gen(poor_water)
 
 tab poor_water
@@ -28,6 +28,7 @@ tabulate year fever, row nofreq
 // In 2007, about 65% less children reported a fever in the last two weeks than didn't.
 
 * c 
+* pooled cross section
 reg fever treatment_district, vce(cluster NBER_District_ID)
 
 * d
@@ -35,6 +36,7 @@ gen post = (year==2007)
 reg fever treatment_district post, vce(cluster NBER_District_ID)
 
 * e
+* difference in differences model
 gen inter = post*treatment_district
 reg fever treatment_district post inter, vce(cluster NBER_District_ID)
 
